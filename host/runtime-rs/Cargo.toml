@@ -1,0 +1,13 @@
+[package]
+name = "runtime-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.69"
+host = { git = "https://github.com/bytecodealliance/preview2-prototyping" }
+wasi-common = { git = "https://github.com/bytecodealliance/preview2-prototyping" }
+wasi-cap-std-sync = { git = "https://github.com/bytecodealliance/preview2-prototyping" }
+wasmtime = { git = "https://github.com/bytecodealliance/wasmtime.git", version = "6.0.0", features = ["component-model"] }
+tokio = { version = "1.25.0", features = ["rt", "rt-multi-thread"] }
+async-trait = "0.1.64"

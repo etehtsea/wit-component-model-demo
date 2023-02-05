@@ -1,0 +1,9 @@
+default world demo {
+  import imports: interface {
+    print: func(msg: string)
+  }
+
+  export exports: interface {
+    run: func()
+  }
+}
