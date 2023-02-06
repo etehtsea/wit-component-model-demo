@@ -1,0 +1,5 @@
+demo.c
+demo.h
+demo_component_type.o
+hello-c.wasm
+hello-c.component.wasm

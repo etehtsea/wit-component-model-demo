@@ -1,6 +1,7 @@
 wasmtime::component::bindgen!({ async: true, path: "../../wit/demo.wit", world: "demo" });
 
-const GUEST_COMPONENT: &str = "../../guest/hello-rs/target/hello_rs.wasm";
+const COMPONENT_RS: &str = "../../guest/hello-rs/target/hello-rs.component.wasm";
+const COMPONENT_C: &str = "../../guest/hello-c/hello-c.component.wasm";
 
 struct HostDemo {}
 
@@ -42,11 +43,14 @@ async fn main() -> anyhow::Result<()> {
     imports::add_to_linker(&mut linker, |ctx: &mut Context| &mut ctx.demo)?;
     host::add_to_linker(&mut linker, |ctx: &mut Context| &mut ctx.wasi)?;
 
-    let guest = wasmtime::component::Component::from_file(&engine, GUEST_COMPONENT)?;
+    let guest_rs = wasmtime::component::Component::from_file(&engine, COMPONENT_RS)?;
+    let guest_c = wasmtime::component::Component::from_file(&engine, COMPONENT_C)?;
 
-    let (component, _instance) = Demo::instantiate_async(&mut store, &guest, &linker).await?;
+    let (component_rs, _instance) = Demo::instantiate_async(&mut store, &guest_rs, &linker).await?;
+    let (component_c, _instance) = Demo::instantiate_async(&mut store, &guest_c, &linker).await?;
 
-    component.exports.call_run(&mut store).await?;
+    component_rs.exports.call_run(&mut store).await?;
+    component_c.exports.call_run(&mut store).await?;
 
     Ok(())
 }
